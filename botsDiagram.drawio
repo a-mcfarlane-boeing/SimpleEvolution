@@ -1,0 +1,64 @@
+<mxfile host="app.diagrams.net" modified="2024-03-08T07:15:49.221Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0" etag="GN4AM59HfgNWVKmEJm7-" version="24.0.2" type="github">
+  <diagram name="Page-1" id="cU_hkmk9bQybotbxhESP">
+    <mxGraphModel dx="1644" dy="270" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-1" value="Bots Iteration 1" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="534" y="20" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-2" value="Brain Diagram" style="swimlane;whiteSpace=wrap;html=1;swimlaneLine=1;glass=0;" vertex="1" parent="1">
+          <mxGeometry x="-350" y="130" width="1300" height="910" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-30" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=classic;" edge="1" parent="Ax0faulMGV-Zd_fPso3x-2" source="Ax0faulMGV-Zd_fPso3x-3" target="Ax0faulMGV-Zd_fPso3x-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-3" value="i0" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="350" y="200" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-4" value="i1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="350" y="290" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-5" value="i2" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="350" y="380" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-6" value="i3" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="350" y="450" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-7" value="i4" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="350" y="520" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-17" value="energy_percent" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;size=0.5;horizontal=1;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="330" y="210" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-19" value="position_x_percent" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;size=0.5;horizontal=1;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="330" y="300" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-20" value="position_y_percent" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;size=0.5;horizontal=1;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="330" y="390" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-21" value="view_angle_percent" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;size=0.5;horizontal=1;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="330" y="460" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-24" value="view_distance_percent" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;size=0.5;horizontal=1;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="330" y="530" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-25" value="i0_0" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="440" y="130" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-26" value="i0_1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="440" y="180" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-27" value="i0_3" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="Ax0faulMGV-Zd_fPso3x-2">
+          <mxGeometry x="440" y="230" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-31" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.021;entryY=0.664;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=classic;" edge="1" parent="Ax0faulMGV-Zd_fPso3x-2" source="Ax0faulMGV-Zd_fPso3x-3" target="Ax0faulMGV-Zd_fPso3x-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ax0faulMGV-Zd_fPso3x-32" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.007;entryY=0.25;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=classic;" edge="1" parent="Ax0faulMGV-Zd_fPso3x-2" source="Ax0faulMGV-Zd_fPso3x-3" target="Ax0faulMGV-Zd_fPso3x-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
