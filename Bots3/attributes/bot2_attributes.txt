@@ -1,0 +1,3 @@
+Name: bot2
+Generation: 2
+Family History: bot1

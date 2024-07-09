@@ -1,0 +1,2 @@
+Name: bot24
+Generation: 0
