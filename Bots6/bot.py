@@ -580,6 +580,8 @@ def Combine3(dom_value, sub_value, min_value, max_value):
 
         return min(max(dom_value+movement*sub_pull,min_value),max_value)
 
+def Combine_Wrap(dom_value, sub_value, lower_bound, upper_bound):
+    max_range = upper_bound - lower_bound
 
 class Eye:
     class Segment:

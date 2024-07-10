@@ -1,3 +1,4 @@
+import os
 import time
 import visualiser as vis
 import world
@@ -344,7 +345,7 @@ class Simulator:
         last_real_time = 0.0
         self.status = True
         while self.status:
-            self.brainWindow.connected_brain = [bot.net for bot in self.simObjects if "bot" in bot.attributes.name][-1]
+            self.brainWindow.connectBrain([bot.net for bot in self.simObjects if "bot" in bot.attributes.name][-1])
             self.simTime += self.simTimeInterval
             real_time_interval = self.runTime - last_real_time
             last_real_time = self.runTime
@@ -473,11 +474,10 @@ def main():
                 initial_bot.connectToBrain()
                 simulator.addObject(initial_bot)
 
-        simulator.brainWindow.connected_brain = [bot.net for bot in simulator.simObjects if "bot" in bot.attributes.name][0]
-
         simulator.run()
 
         simulator.endOfSimulation()
 
 if __name__ == "__main__":
+    os.chdir("./Bots6")
     main()

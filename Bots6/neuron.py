@@ -1,12 +1,13 @@
 import math
+import brain
 
 class Neuron:
     """
     This neuron makes calculations based on its position relative to the neurons surrounding it    
     """
 
-    def __init__(self,name='Blank Neuron',location=[0,0]):
-        
+    def __init__(self,name='Blank Neuron', location=[0,0]):
+
         self.max_range_of_neuron = 1
         self.min_range_of_neuron = 0.05
 
@@ -23,7 +24,7 @@ class Neuron:
         # initialise the output of the neuron
         self.value = 0.0
     
-    def findInputs(self, neuron_list : list['Neuron']):
+    def findInputs(self, neuron_list : list['Neuron'], brain_side_length):
         """
         searches through the other neurons to find neighbours.
         assigns their outputs to this neuron's inputs.
@@ -34,8 +35,8 @@ class Neuron:
         self.input_weights = []
         i=0
         for other_neuron in neuron_list:
-            x_dis = self.location[0] - other_neuron.location[0]
-            y_dis = self.location[1] - other_neuron.location[1]
+            x_dis = abs(self.location[0] - other_neuron.location[0])%(brain_side_length/2)
+            y_dis = abs(self.location[1] - other_neuron.location[1])%(brain_side_length/2)
             distance = math.sqrt(x_dis**2 + y_dis**2)
             if distance <= self.max_range_of_neuron and distance >= self.min_range_of_neuron:
                 distance_percent = 1.0 - (distance-self.min_range_of_neuron)/(self.max_range_of_neuron-self.min_range_of_neuron)

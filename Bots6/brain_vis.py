@@ -26,16 +26,14 @@ class BrainDisplay:
 
         # work out how much space is required to show all the neurons
         # window should be a square
-        self.vis_side_length = 24
+        self.vis_side_length = 15
 
         # calculate the size and layout of the window
         self.window_width_pixels = Window_width_pixels
         self.pixels_per_unit = self.window_width_pixels / self.vis_side_length
         self.window_height_pixels = self.vis_side_length * self.pixels_per_unit
 
-        # creates a list of dictionaries containing the neuron circles
-        # format {"name":,"circle":,"x":,"y":}
-        self.neurons = []
+        self.canvas_items = []
 
         # Create the main window
         self.window = tk.Tk()
@@ -43,20 +41,6 @@ class BrainDisplay:
 
         # Create canvas to show the environment
         self.canvas = tk.Canvas(self.window, bg='black', width=self.window_width_pixels, height=self.window_height_pixels)
-
-        # draw lines to indicate the units
-        # individual units
-        self._generateUnitLines(1,self.vis_side_length,self.vis_side_length, "light grey")
-        # 10s of units
-        # these are done seperately so that they overlay the grey lines underneath
-        self._generateUnitLines(10,self.vis_side_length,self.vis_side_length, "light blue")
-
-        # draw the boundries of the brain
-        self.canvas.create_rectangle(self._convertToPixels(1),self._convertToPixels(1),self._convertToPixels(self.vis_side_length-1),self._convertToPixels(self.vis_side_length-1),fill="",outline="red")    
-
-        # create the circles for the neurons
-        #for neuron in self.connected_brain.neurons:
-        #    self.neurons.append(self._createCircle(neuron.location[0],neuron.location[1],valueToNeuronRadius(neuron.output),"orange"))
 
         self.canvas.pack()
 
@@ -66,7 +50,7 @@ class BrainDisplay:
         connectionLines = []
         for name in neuron["connection list"]:
             i=0
-            for other_neuron in self.neurons:
+            for other_neuron in self.canvas_items:
                 if other_neuron["name"] == name:
                     destination_X = self._convertToPixels(other_neuron["x"])
                     destination_Y = self._convertToPixels(other_neuron["y"])
@@ -78,26 +62,52 @@ class BrainDisplay:
                     i+=1
         neuron["connection lines"] = connectionLines
 
+    def connectBrain(self, new_brain):
+        #keeps a connection to the brain
+        self.connected_brain:brain = new_brain
+
+        # work out how much space is required to show all the neurons
+        # window should be a square
+        self.vis_side_length = self.connected_brain.side_length + 2
+
+        # calculate the size and layout of the window
+        self.window_width_pixels = Window_width_pixels
+        self.pixels_per_unit = self.window_width_pixels / self.vis_side_length
+        self.window_height_pixels = self.vis_side_length * self.pixels_per_unit
+
+        self.canvas_items = []
+
 
     def _generateUnitLines(self, spacing, world_width, world_height, colour):
         # vertical
+        items = []
         i=1
         while i <= world_width:
-            self.canvas.create_line(self._convertToPixels(i), self._convertToPixels(0), self._convertToPixels(i), self._convertToPixels(world_height),fill=colour)
+            items.append(self.canvas.create_line(self._convertToPixels(i), self._convertToPixels(0), self._convertToPixels(i), self._convertToPixels(world_height),fill=colour))
             i+=spacing
         
         # horizontal
         i=1
         while i <= world_height:
-            self.canvas.create_line(self._convertToPixels(0), self._convertToPixels(i), self._convertToPixels(world_width), self._convertToPixels(i),fill=colour)
-    
+            items.append(self.canvas.create_line(self._convertToPixels(0), self._convertToPixels(i), self._convertToPixels(world_width), self._convertToPixels(i),fill=colour))
             i+=spacing
 
+        return items
+
     def update(self):
-        for neuron in self.neurons:
-            self.canvas.delete(neuron)
+        self.canvas.delete('all')
         
-        self.neurons = []
+        self.canvas_items = []
+
+        # draw lines to indicate the units
+        # individual units
+        self.canvas_items.extend(self._generateUnitLines(1,self.vis_side_length,self.vis_side_length, "light grey"))
+        # 10s of units
+        # these are done seperately so that they overlay the grey lines underneath
+        self.canvas_items.extend(self._generateUnitLines(10,self.vis_side_length,self.vis_side_length, "light blue"))
+
+        # draw the boundries of the brain
+        self.canvas_items.append(self.canvas.create_rectangle(self._convertToPixels(1),self._convertToPixels(1),self._convertToPixels(self.vis_side_length-1),self._convertToPixels(self.vis_side_length-1),fill="",outline="red"))
 
         #  create the circles for the neurons
         for neuron in self.connected_brain.neurons:
@@ -121,7 +131,7 @@ class BrainDisplay:
             elif neuron.name == "EA":
                 colour = "red4"
 
-            self.neurons.append(self.createNeuronCircle(neuron,colour))
+            self.canvas_items.append(self.createNeuronCircle(neuron,colour))
 
         self.window.update()
 
@@ -140,12 +150,6 @@ class BrainDisplay:
 
         return self.canvas.create_oval(UL_x,UL_y,LR_x,LR_y,fill=colour)
 
-    def deleteObject(self, object_to_delete):
-        '''
-        removes the object from the view space
-        '''
-        self.canvas.delete(object_to_delete)
-
     def _convertToPixels(self, value) -> int:
         '''converts a position in the world to a pixel position on the window
         index 0 and 1 are outside of the range of the canvas
@@ -159,7 +163,7 @@ class BrainDisplay:
         return math.ceil(value*self.pixels_per_unit) + 1
 
 def main():
-    testbrain = brain.Brain()
+    testbrain = brain.Brain(100)
     window1 = BrainDisplay()
 
     class box:
@@ -174,7 +178,7 @@ def main():
     thing = box()
 
     testbrain.neurons[0].takeInput(thing.getVal)
-    window1.connected_brain = testbrain
+    window1.connectBrain(testbrain)
     window1.window.title("test brain")
     while True:
         testbrain.think()

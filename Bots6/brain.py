@@ -42,7 +42,7 @@ class Brain:
         """initialise all the neurons inputs
         will select from surounding Neurons"""
         for N in self.neurons:
-            N.findInputs(self.neurons)
+            N.findInputs(self.neurons, self.side_length)
 
     def resize(self, num_of_neurons):
         self.side_length = math.sqrt(num_of_neurons)

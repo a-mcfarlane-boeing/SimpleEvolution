@@ -555,3 +555,9 @@ The absolute best was #7553a0 bot bot5 RPM: 1.7416415477404776 Gen: 7 with 3 Max
 The absolute best was #7a5399 bot bot9 RPM: 2.5803857403232398 Gen: 7 with 3 Max Speed: 2.9966842530713884
 The absolute best was #7a5399 bot bot1 RPM: 1.1737785442319448 Gen: 7 with 3 Max Speed: 2.9966842530713884
 The absolute best was #6b4f96 bot bot0 RPM: 3.093097198413908 Gen: 7 with 3 Max Speed: 3.0642340446050085
+The absolute best was #6b4499 bot bot7 RPM: 2.827138466381931 Gen: 7 with 8 Max Speed: 3.2005082973188785
+The absolute best was #6b4499 bot bot0 RPM: 1.2678954626970091 Gen: 7 with 3 Max Speed: 3.2005082973188785
+The absolute best was #74478c bot bot5 RPM: 1.6587572768671692 Gen: 7 with 5 Max Speed: 3.090624393020394
+The absolute best was #554999 bot bot5 RPM: 1.6629977834845404 Gen: 7 with 3 Max Speed: 3.305159881840789
+The absolute best was #4d4a96 bot bot9 RPM: 3.4063161824700625 Gen: 7 with 5 Max Speed: 3.444963365863997
+The absolute best was #4b5498 bot bot8 RPM: 5.095743640306585 Gen: 7 with 6 Max Speed: 3.4233982420709497
