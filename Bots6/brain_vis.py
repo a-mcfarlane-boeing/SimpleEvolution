@@ -60,7 +60,7 @@ class BrainDisplay:
                         colour = "red"
                     connectionLines.append(self.canvas.create_line(origin_X,origin_Y,destination_X,destination_Y,width = abs(thickness), fill=colour,activewidth=5,arrow="first"))
                     i+=1
-        neuron["connection lines"] = connectionLines
+        return connectionLines
 
     def connectBrain(self, new_brain):
         #keeps a connection to the brain
@@ -85,7 +85,7 @@ class BrainDisplay:
         while i <= world_width:
             items.append(self.canvas.create_line(self._convertToPixels(i), self._convertToPixels(0), self._convertToPixels(i), self._convertToPixels(world_height),fill=colour))
             i+=spacing
-        
+
         # horizontal
         i=1
         while i <= world_height:
@@ -96,7 +96,7 @@ class BrainDisplay:
 
     def update(self):
         self.canvas.delete('all')
-        
+
         self.canvas_items = []
 
         # draw lines to indicate the units
@@ -113,7 +113,7 @@ class BrainDisplay:
         for neuron in self.connected_brain.neurons:
 
             colour = "light blue"
-            
+
             for i in range(9):
                 if neuron.name == "Eye Segment"+str(int(i))+"R":
                     colour = "red"
@@ -173,7 +173,6 @@ def main():
         def getVal(self):
             self.val = ((self.val+1)/100)%1
             return self.val
-    
 
     thing = box()
 
@@ -182,7 +181,7 @@ def main():
     window1.window.title("test brain")
     while True:
         testbrain.think()
-        window1.update()  
+        window1.update()
 
 if __name__ == "__main__":
     main()

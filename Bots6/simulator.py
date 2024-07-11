@@ -86,13 +86,13 @@ END"""
 
 # makes so can run simulation multiple times
 while num_of_simulations < num_of_simulations_total:
-    
+
 
     number_of_bots_alive = Initial_number_of_bots
     total_number_of_bots = Initial_number_of_bots
 
 
-    
+
 
     real_time_limit = hours*60*60 + minutes*60 + seconds
 
@@ -137,7 +137,7 @@ while num_of_simulations < num_of_simulations_total:
         alive_bots.append(createBotDict(initial_bot))
 
         i+=1
-    
+
     #alive_bots.append({"bot":apple})
 
     initial_generation = alive_bots[0]["bot"].attributes.generation
@@ -147,7 +147,7 @@ while num_of_simulations < num_of_simulations_total:
     Start_time = time.time_ns()*1.0
     last_print_time = 0.0
 
-    
+
     #create brain visualiser for the first bot
     brain_screen = brain_vis.BrainDisplay(alive_bots[0]["bot"].net)
 
@@ -162,11 +162,11 @@ while num_of_simulations < num_of_simulations_total:
         simulation_elapsed_time = real_elapsed_time*time_factor
 
         difference = real_elapsed_time - last_print_time
-        
+
         # cycles through each of the bots
         i = 0
         while i < number_of_bots_alive:
-            
+
             object.simulate(simulation_elapsed_time, [apple]) #[bot["bot"] for bot in alive_bots]
 
             # cycle through all the other bots to interact with
@@ -182,7 +182,7 @@ while num_of_simulations < num_of_simulations_total:
                         total_number_of_bots += 1
                         number_of_bots_alive += 1
                         alive_bots.append(createBotDict(child_bot))
-                
+
                 #prevent from checking if coliding with itself
                 if i != j and EnableCollisions:
                     botCollisionCheck(object,alive_bots[j]["bot"])
@@ -219,14 +219,14 @@ while num_of_simulations < num_of_simulations_total:
                 number_of_bots_alive -= 1
 
             i+=1
-    
+
         # end of simulation conditions---------------------------------------------------
         if number_of_bots_alive <= 1 or simulation_elapsed_time >= time_limit:
             #move rest of bots into the all bots list
-            for bots in alive_bots:   
+            for bots in alive_bots:
                 bots["bot"].time_since_birth = simulation_elapsed_time - bots["bot"].birth_time
                 all_bots.append(bots['bot'])
-            
+
             print("all bots results:")
             for thisBot in all_bots:
                 print(thisBot.attributes.name+ "  Rewards collected: "+ str(thisBot.total_rewards_collected) + " Gen: "+str(thisBot.attributes.generation))
@@ -242,7 +242,7 @@ while num_of_simulations < num_of_simulations_total:
                     max_carry_factor = carry_factor
                     index = i
                 i+=1
-            
+
             #record the results of the simulation
             if index != -1:
                 record = open("record.txt","a")
@@ -255,7 +255,7 @@ while num_of_simulations < num_of_simulations_total:
                 #save the second best bot
             else:
                 print("no bots passed the initial requirements for improvement")
-            
+
             print("End of simulation, the total number of bots was " +str(total_number_of_bots))
             sim_status = False
 
@@ -263,16 +263,16 @@ while num_of_simulations < num_of_simulations_total:
             last_print_time = real_elapsed_time
 
             printSimStatus()
-            
+
             # update the position of all the alive bots on screen
             i=0
             while i < number_of_bots_alive:
                 visWin.moveBot(alive_bots[i])
                 i += 1
-            
+
             # update the position of the reward
             visWin.moveCircleFromCenter(vis_apple,apple.position[0],apple.position[1])
-            
+
             visWin.update()
             brain_screen.connected_brain = alive_bots[0]["bot"].net
             brain_screen.update()
@@ -371,7 +371,7 @@ class Simulator:
         """
         for object in self.simObjects:
             object.simulate()
-    
+
     def endOfSimulation(self):
         from bot import Bot
         print("all bots results:")
@@ -391,7 +391,7 @@ class Simulator:
                                 if object.total_rewards_collected >= bot.total_rewards_collected:
                                     bot = object
                                 break
-                        
+
                         if isUnique:
                             bestBots.append(object)
         if len(bestBots) == 0:
@@ -410,7 +410,7 @@ class Simulator:
             print(text)
             bot.saveBrain('brains/'+bot.attributes.colourHEX+'starter_brain.txt')
             bot.attributes.save('attributes/'+bot.attributes.colourHEX+'starter_attributes.txt')
-        
+
         with open("starting_species.txt","w") as specs:
             for bot in bestBots:
                 specs.write(f"{bot.attributes.colourHEX},")
@@ -423,8 +423,8 @@ class Simulator:
         print(text)
         bestbot.saveBrain('brains/starter_brain.txt')
         bestbot.attributes.save('attributes/starter_attributes.txt')
-        
-             
+
+
 
 def now():
     return time.time_ns()/10.0**9
@@ -452,7 +452,6 @@ def main():
                 initial_bot = bot.Bot(simulator)
 
                 initial_bot.net.load(fr"brains\{species_name}starter_brain.txt")
-                #initial_bot.connectToBrain()
                 initial_bot.attributes.load(fr"attributes\{species_name}starter_attributes.txt")
 
                 initial_bot.attributes.name = "bot"+str(i)
@@ -468,9 +467,9 @@ def main():
                     initial_bot.circleObject.colourHEX = initial_bot.attributes.colourHEX
                     initial_bot.circleObject.changeColour()
                     for neuron in initial_bot.net.neurons:
-                        neuron.location[0] = bot.Combine1(neuron.location[0], neuron.location[0],0,initial_bot.net.side_length)
-                        neuron.location[1] = bot.Combine1(neuron.location[1], neuron.location[1],0,initial_bot.net.side_length)
-                    
+                        neuron.location[0] = bot.Combine_Wrap(neuron.location[0], neuron.location[0],0,initial_bot.net.side_length)
+                        neuron.location[1] = bot.Combine_Wrap(neuron.location[1], neuron.location[1],0,initial_bot.net.side_length)
+
                 initial_bot.connectToBrain()
                 simulator.addObject(initial_bot)
 
@@ -479,5 +478,5 @@ def main():
         simulator.endOfSimulation()
 
 if __name__ == "__main__":
-    os.chdir("./Bots6")
+    #os.chdir("./Bots6")
     main()

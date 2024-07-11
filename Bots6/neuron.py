@@ -3,7 +3,7 @@ import brain
 
 class Neuron:
     """
-    This neuron makes calculations based on its position relative to the neurons surrounding it    
+    This neuron makes calculations based on its position relative to the neurons surrounding it
     """
 
     def __init__(self,name='Blank Neuron', location=[0,0]):
@@ -20,10 +20,10 @@ class Neuron:
 
         self.inputs = []
         self.input_weights = []
-        
+
         # initialise the output of the neuron
         self.value = 0.0
-    
+
     def findInputs(self, neuron_list : list['Neuron'], brain_side_length):
         """
         searches through the other neurons to find neighbours.
@@ -35,9 +35,29 @@ class Neuron:
         self.input_weights = []
         i=0
         for other_neuron in neuron_list:
-            x_dis = abs(self.location[0] - other_neuron.location[0])%(brain_side_length/2)
-            y_dis = abs(self.location[1] - other_neuron.location[1])%(brain_side_length/2)
+            if other_neuron == self:
+                continue
+
+            x_dis = self.location[0] - other_neuron.location[0]
+            y_dis = self.location[1] - other_neuron.location[1]
+
+            wrap_x_dis = brain_side_length - abs(x_dis)
+            wrap_y_dis = brain_side_length - abs(y_dis)
+
+            if x_dis > 0:
+                wrap_x_dis = -wrap_x_dis
+
+            if y_dis > 0:
+                wrap_y_dis = -wrap_y_dis
+
+            if abs(x_dis) > abs(wrap_x_dis):
+                x_dis = wrap_x_dis
+
+            if abs(y_dis) > abs(wrap_y_dis):
+                y_dis = wrap_y_dis
+
             distance = math.sqrt(x_dis**2 + y_dis**2)
+
             if distance <= self.max_range_of_neuron and distance >= self.min_range_of_neuron:
                 distance_percent = 1.0 - (distance-self.min_range_of_neuron)/(self.max_range_of_neuron-self.min_range_of_neuron)
                 #invert distance percent every second neuron
@@ -47,7 +67,7 @@ class Neuron:
                 self.inputs.append(other_neuron.getOutput)
                 self.input_weights.append(distance_percent)
                 i+=1
-    
+
     def takeInput(self, input):
         self.inputs = [input]
         self.input_weights = []
@@ -63,7 +83,7 @@ class Neuron:
             return
         else:
             total=0.0
-            
+
             # adds up all the inputs
             i=0
             while i < len(self.inputs):
@@ -71,7 +91,7 @@ class Neuron:
                 i+=1
 
             total_factor = min(max(total,-1),1)
-            
+
             # the sigmoid function
             # TF = 0 -> O = 0.5
             # TF = 1 -> O = 1.0

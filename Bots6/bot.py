@@ -1,4 +1,3 @@
-from __future__ import annotations
 import math
 import random
 import brain
@@ -100,7 +99,7 @@ class Bot:
 
         self.net = brain.Brain(num_of_neurons = (inputs+outputs)*2)
 
-        self.connectToBrain()     
+        self.connectToBrain()
 
     def connectToBrain(self):
         self.net.num_of_inputs = 0
@@ -156,11 +155,11 @@ class Bot:
             print(self.attributes.name+" died")
             self.circleObject.delete()
             self.simulator.simObjects.remove(self)
-    
+
     def calculateInternalVariables(self):
         # how long the bot has been alive
         self.age += self.simulator.simTimeInterval
-        
+
         # updates internal clocks accordingly
         self.time_since_last_child += self.simulator.simTimeInterval
         self.time_since_last_meal += self.simulator.simTimeInterval
@@ -172,7 +171,7 @@ class Bot:
                 self.eye.see(object)
                 self.eat(object)
                 self.breed(object)
-    
+
     def eat(self, object):
         """
         Bot will attempt to eat from the object. Will only succeed if close enough
@@ -220,11 +219,11 @@ class Bot:
 
         # eating will consume a bit of energy, decentivising the bots from attempting to eat continuously
         self.energy_level -= 0.001
-    
+
     def willingToBreed(self) -> bool:
         # check if this bot is willing to breed
         result = self.breeding_points >= 1 and self.energy_level >= Min_energy_to_breed and self.time_since_last_child >= Min_breed_delay
-        
+
         return result
 
     def sameSpecies(self, other:Bot) -> bool:
@@ -236,7 +235,7 @@ class Bot:
                 result = result and True
             else:
                 result = False
-        
+
         return result
 
     def breed(self, other_bot: Bot):
@@ -244,12 +243,12 @@ class Bot:
         the assigned bot will attempt to breed with the given bot providing they are both eligable
         returns the child bot of the two parents.
         """
-        
+
         if 'bot' in str.lower(other_bot.attributes.name):
             # check if not trying to breed with self (eww)
             if self.attributes.name == other_bot.attributes.name:
                 return
-            
+
             #check if this bot is still willing (might not if mated with previous bot)
             if not self.willingToBreed():
                 return
@@ -261,7 +260,7 @@ class Bot:
             # check if the two bots are of the same species
             if not self.sameSpecies(other_bot):
                 return
-            
+
             child_name = "bot"+str(self.simulator.totalNumOfObjects)
 
             print(self.attributes.name+" mated with " +
@@ -300,21 +299,21 @@ class Bot:
             childBot.direction = 2* math.pi * random.random()
             childBot.attributes.generation += 1
             childBot.attributes.familyHistory = domBot.attributes.ownFamilyHistory()
-            
+
             #give child bot colour
             result_colour_RGB = []
             for i in range(3):
                 result_colour_RGB.append(Combine1(domBot.attributes.colourRGB[i],recBot.attributes.colourRGB[i],0,1))
             childBot.attributes.colourRGB = result_colour_RGB
             childBot.attributes.assignRGBtoHEX()
-            
+
             childBot.circleObject.colourHEX = childBot.attributes.colourHEX
             childBot.circleObject.changeColour()
 
             i=0
             for neuron in childBot.net.neurons:
-                neuron.location[0] = Combine1(neuron.location[0],recBot.net.neurons[i].location[0],0,childBot.net.side_length)
-                neuron.location[1] = Combine1(neuron.location[1],recBot.net.neurons[i].location[1],0,childBot.net.side_length)
+                neuron.location[0] = Combine_Wrap(neuron.location[0],recBot.net.neurons[i].location[0],0,childBot.net.side_length)
+                neuron.location[1] = Combine_Wrap(neuron.location[1],recBot.net.neurons[i].location[1],0,childBot.net.side_length)
                 i+=1
 
             #childBot.net.configureNeurons()
@@ -345,7 +344,7 @@ class Bot:
         # update the position
         self.position = [self.position[0]+x_displacement,
                          self.position[1]+y_displacement]
-        
+
         # check if the bot has reached the boundry
         # Right boundry
         if self.position[0] > self.simulator.world.width - self.attributes.radius:
@@ -369,7 +368,7 @@ class Bot:
 
     def getPPx(self):
         return self.position[0] / self.simulator.world.width
-    
+
     def getPPy(self):
         return self.position[1] / self.simulator.world.height
 
@@ -421,7 +420,7 @@ class Attributes:
         self.maxEnergyReserve = Max_energy_reserve
         self.energyReserveLimit = self.maxEnergyReserve
         self.radius = Radius
-    
+
     def save(self, file_location=None):
         if file_location == None:
             file_location = "attributes/"+self.name+"_attributes.txt"
@@ -481,7 +480,7 @@ class Attributes:
 
     def mutate(self):
         """
-        Mutates the attributes for the bot 
+        Mutates the attributes for the bot
         """
         self.maxSpeed = self.maxSpeed + (random.random()-0.5)*0.3
         self.maxTurnSpeed = self.maxTurnSpeed + (random.random()-0.5)*0.3
@@ -494,14 +493,10 @@ class Attributes:
 
     def assignRGBtoHEX(self):
         self.colourHEX = visualiser.RGBtoHEX(self.colourRGB)
-        
+
     def assignHEXtoRGB(self):
         self.colourRGB = visualiser.HEXtoRGB(self.colourHEX)
-        
-        
 
-
-    
 def Combine1(dom_value, sub_value, min_value, max_value):
     """returns a value close to the dom value towards the sub value
     The amount of pull the sub has is dictated by the probability that
@@ -527,8 +522,6 @@ def Combine1(dom_value, sub_value, min_value, max_value):
 
     return min(max(new_val,min_value),max_value)
 
-    
-
 def Combine2(dom_value, sub_value, min_value, max_value):
 
     mutation_chance = 0.2
@@ -538,7 +531,7 @@ def Combine2(dom_value, sub_value, min_value, max_value):
     midpoint = (max_value-min_value)/2.0
 
     mutation_value = ((max_value-min_value)*random.random()+min_value)
-    
+
     if random.random() <= mutation_chance:
         #mutation occurs
         return min(max(dom_value + mut_pull * mutation_value,min_value),max_value)
@@ -548,8 +541,8 @@ def Combine2(dom_value, sub_value, min_value, max_value):
         return min(max(dom_value + sub_pull * difference,min_value),max_value)
 
 def Combine3(dom_value, sub_value, min_value, max_value):
-    """only tries to combine the values if they are within a 
-    half length of the range of each other""" 
+    """only tries to combine the values if they are within a
+    half length of the range of each other"""
 
     mutation_chance = 0.2
     sub_pull = 0.2
@@ -580,8 +573,32 @@ def Combine3(dom_value, sub_value, min_value, max_value):
 
         return min(max(dom_value+movement*sub_pull,min_value),max_value)
 
-def Combine_Wrap(dom_value, sub_value, lower_bound, upper_bound):
-    max_range = upper_bound - lower_bound
+def Combine_Wrap(dom_val, sub_val, min_bound, max_bound):
+    """
+    Will try to combine the values, but if the dom and sub are near the bounds it will pull the result around between the two
+    """
+    mutation_chance = 1/100.0
+    sub_pull = 0.05
+    mut_pull = 0.05
+
+    len_range = max_bound - min_bound
+
+    if random.random() <= mutation_chance:
+        #mutation occurs
+        sub_val = len_range*random.random()+min_bound
+        sub_pull = mut_pull
+
+    diff = dom_val - sub_val
+    wrap_diff = len_range - abs(diff)
+    if diff > 0:
+        # dom > sub → diff is positive
+        wrap_diff = -wrap_diff
+
+    if abs(diff) > abs(wrap_diff):
+        # The inverse direction is smaller. Wrap
+        diff = wrap_diff
+
+    return (dom_val - sub_pull * diff)%len_range
 
 class Eye:
     class Segment:
@@ -591,20 +608,20 @@ class Eye:
             self.endAngle = eAngle
             self.disPercent = 0.0
             self.RGB = [0.0,0.0,0.0]
-        
+
         def reset(self):
             self.disPercent = 0.0
             self.RGB = [0.0,0.0,0.0]
-        
+
         def getDisPercent(self):
             return self.disPercent
-        
+
         def getRed(self):
             return self.RGB[0]
 
         def getGreen(self):
             return self.RGB[1]
-        
+
         def getBlue(self):
             return self.RGB[2]
 
@@ -616,7 +633,7 @@ class Eye:
         for i in range(self.bot.resolution_of_eye):
             self.segments.append(Eye.Segment("Eye Segment"+str(int(i)),i*self.segment_angle,(
                 i+1)*self.segment_angle))
-        
+
     def see(self, object:Bot):
         #determine where the object is in comparison to self
         x_displacement = object.position[0] - self.bot.position[0]
@@ -624,7 +641,7 @@ class Eye:
         # check if too far away, if so, skip
         distance_to_object = math.sqrt(
             x_displacement**2 + y_displacement**2)
-        
+
         if distance_to_object > self.bot.max_view_distance:
             return
         #determine the angle to the object from self in global coords
@@ -635,13 +652,13 @@ class Eye:
         #if the object is outside the field of view skip it
         if angle_of_object_in_view > self.bot.FOV_angle:
             return
-        
+
         for segment in self.segments:
             if angle_of_object_in_view >= segment.startAngle and angle_of_object_in_view < segment.endAngle:
                 distance_percent = 1.0 - distance_to_object/self.bot.max_view_distance
-                if segment.disPercent <= distance_percent:     
+                if segment.disPercent <= distance_percent:
                     segment.disPercent = distance_percent
-                    segment.RGB = object.attributes.colourRGB      
+                    segment.RGB = object.attributes.colourRGB
 
     def reset(self):
         #resets all the view segments
@@ -656,6 +673,6 @@ class Eye:
 def main():
     testbot = Bot(simulator.Simulator())
     print(testbot.__dict__)
-    
+
 if __name__ == "__main__":
     main()
